@@ -3,6 +3,7 @@ const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 const particlesArray =[];
+let hue=0;
 
 
 
@@ -21,14 +22,20 @@ const mouse={
 canvas.addEventListener('click',function(event){
     mouse.x = event.x;
     mouse.y = event.y;
-   particlesArray.push(new Particle());
+    for(let i=0;i<10;i++){
+        particlesArray.push(new Particle());
+    }
+   
 
 });
 
 canvas.addEventListener('mousemove',function(event){
     mouse.x = event.x;
     mouse.y = event.y;
-    particlesArray.push(new Particle());
+    for(let i=0;i<4;i++){
+        particlesArray.push(new Particle());
+    }
+   // particlesArray.push(new Particle());
 
 })
 
@@ -48,7 +55,7 @@ class Particle {
         if(this.size>0.2) this.size-=0.1;
     }
     draw(){
-        ctx.fillStyle ='green';
+        ctx.fillStyle ='hsl('+hue+',100%,50%)';
         ctx.beginPath();
         ctx.arc( this.x,this.y,this.size,0,Math.PI*2);
         ctx.fill();
@@ -67,8 +74,11 @@ function handleParticles(){
 }
 
 function animate(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+    //ctx.clearRect(0,0,canvas.width,canvas.height);//this doesnt fade away slowly
+    ctx.fillStyle='rgb(0,0,0,0.5)';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
     handleParticles();
+    hue++;
     requestAnimationFrame(animate);
     //by setting argument for requestAnimationFrame to animate this will create a loop
 
